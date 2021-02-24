@@ -1,0 +1,7 @@
+apiVersion: app.onprem.local/v1alpha1
+kind: Chart
+metadata:
+  name: chart-sample
+spec:
+  # Add fields here
+  foo: bar
