@@ -29,13 +29,16 @@ type ChartSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Chart. Edit Chart_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+        Chart string `json:"string,omitempty"`
 }
 
 // ChartStatus defines the observed state of Chart
 type ChartStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+        ChartName        string        `json:"chartName"`
+        DeploymentStatus    string    `json:"deploymentStatus"`
+ 
 }
 
 // +kubebuilder:object:root=true
