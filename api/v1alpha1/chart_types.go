@@ -29,7 +29,8 @@ type ChartSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Chart. Edit Chart_types.go to remove/update
-	ChartName string `json:"chartName"`
+	ChartName    string `json:"chartName"`
+	ChartVersion string `json:"version"`
 }
 
 // ChartStatus defines the observed state of Chart

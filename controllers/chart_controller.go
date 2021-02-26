@@ -67,9 +67,9 @@ func (r *ChartReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		// Error reading the object - requeue the request.
 		return reconcile.Result{}, err
 	}
-	// Prinit Chart Name
-	chart_name := instance.Spec.ChartName
-	fmt.Println(chart_name)
+	// Prinit Chart spec
+	chartSpec := instance.Spec
+	fmt.Println(chartSpec)
 
 	return ctrl.Result{}, nil
 }
