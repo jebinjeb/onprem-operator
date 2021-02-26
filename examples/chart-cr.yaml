@@ -1,7 +1,7 @@
 apiVersion: app.onprem.local/v1alpha1
 kind: Chart
 metadata:
-  name: iam-sample
+  name: nginx-sample
 spec:
-  chartName: iam
+  chartName: bitnami/nginx
   version: 1.0.0

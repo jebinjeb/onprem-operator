@@ -19,6 +19,8 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"log"
+	"os/exec"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -71,6 +73,11 @@ func (r *ChartReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	chartSpec := instance.Spec
 	fmt.Println(chartSpec)
 
+	err = deployHelm(chartSpec)
+	if err != nil {
+		return reconcile.Result{}, err
+	}
+
 	return ctrl.Result{}, nil
 }
 
@@ -79,4 +86,14 @@ func (r *ChartReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&appv1alpha1.Chart{}).
 		Complete(r)
+}
+
+func deployHelm(chartSpec appv1alpha1.ChartSpec) error {
+	//chartName := "/Users/shabhish/Documents/rainier-github/rainier-helm-charts/rainier/" + chartSpec.ChartName
+	out, err := exec.Command("helm", "install", "rainier-nginx", chartSpec.ChartName).Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("The date is %s\n", out)
+	return nil
 }
