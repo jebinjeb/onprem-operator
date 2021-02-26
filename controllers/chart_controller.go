@@ -18,12 +18,14 @@ package controllers
 
 import (
 	"context"
-        "fmt"
+	"fmt"
 
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	appv1alpha1 "github.com/jebinjeb/onprem-operator/api/v1alpha1"
 )
@@ -52,22 +54,22 @@ func (r *ChartReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	_ = r.Log.WithValues("chart", req.NamespacedName)
 
 	// your logic here
-        // Fetch the Chart instance
-        instance := &appv1alpha1.Chart{}
-        err := r.Get(context.TODO(), req.NamespacedName, instance)
-        if err != nil {
-                if errors.IsNotFound(err) {
-                        // Request object not found, could have been deleted after reconcile request.
-                        // Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
-                        // Return and don't requeue
-                        return reconcile.Result{}, nil
-                }
-                // Error reading the object - requeue the request.
-                return reconcile.Result{}, err
-        }
-        // Prinit Chart Name
-        chart_name := instance.chartName
-        fmt.Println(chart_name)
+	// Fetch the Chart instance
+	instance := &appv1alpha1.Chart{}
+	err := r.Get(context.TODO(), req.NamespacedName, instance)
+	if err != nil {
+		if errors.IsNotFound(err) {
+			// Request object not found, could have been deleted after reconcile request.
+			// Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
+			// Return and don't requeue
+			return reconcile.Result{}, nil
+		}
+		// Error reading the object - requeue the request.
+		return reconcile.Result{}, err
+	}
+	// Prinit Chart Name
+	chart_name := instance.Spec.ChartName
+	fmt.Println(chart_name)
 
 	return ctrl.Result{}, nil
 }

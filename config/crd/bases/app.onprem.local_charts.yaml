@@ -36,23 +36,22 @@ spec:
           spec:
             description: ChartSpec defines the desired state of Chart
             properties:
-              string:
+              chartName:
                 description: Foo is an example field of Chart. Edit Chart_types.go
                   to remove/update
                 type: string
+            required:
+            - chartName
             type: object
           status:
             description: ChartStatus defines the observed state of Chart
             properties:
-              chartName:
+              deploymentStatus:
                 description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
                   of cluster Important: Run "make" to regenerate code after modifying
-                  this file'
-                type: string
-              deploymentStatus:
+                  this file ChartName        string `json:"chartName"`'
                 type: string
             required:
-            - chartName
             - deploymentStatus
             type: object
         type: object
