@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+        "fmt"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -51,6 +52,22 @@ func (r *ChartReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	_ = r.Log.WithValues("chart", req.NamespacedName)
 
 	// your logic here
+        // Fetch the Chart instance
+        instance := &appv1alpha1.Chart{}
+        err := r.Get(context.TODO(), req.NamespacedName, instance)
+        if err != nil {
+                if errors.IsNotFound(err) {
+                        // Request object not found, could have been deleted after reconcile request.
+                        // Owned objects are automatically garbage collected. For additional cleanup logic use finalizers.
+                        // Return and don't requeue
+                        return reconcile.Result{}, nil
+                }
+                // Error reading the object - requeue the request.
+                return reconcile.Result{}, err
+        }
+        // Prinit Chart Name
+        chart_name := instance.chartName
+        fmt.Println(chart_name)
 
 	return ctrl.Result{}, nil
 }
