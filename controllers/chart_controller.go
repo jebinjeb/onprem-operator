@@ -71,7 +71,7 @@ func (r *ChartReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	}
 	// Prinit Chart spec
 	chartSpec := instance.Spec
-	fmt.Println(chartSpec)
+	fmt.Printf("Chart spec received from cr is %s\n", chartSpec)
 
 	err = deployHelm(chartSpec)
 	if err != nil {
@@ -89,11 +89,10 @@ func (r *ChartReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func deployHelm(chartSpec appv1alpha1.ChartSpec) error {
-	//chartName := "/Users/shabhish/Documents/rainier-github/rainier-helm-charts/rainier/" + chartSpec.ChartName
 	out, err := exec.Command("helm", "install", "rainier-nginx", chartSpec.ChartName).Output()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("The date is %s\n", out)
+	fmt.Printf("The result of helm install:  %s\n", out)
 	return nil
 }
